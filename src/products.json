@@ -1,0 +1,30 @@
+[
+  {
+    "id": 3,
+    "title": "Lampara",
+    "description": "Iluminación bonita",
+    "code": "Lamp001",
+    "price": 40000,
+    "status": true,
+    "stock": 20,
+    "category": "Hogar",
+    "thumbnails": [
+      "http://example.com/amaca1-image1.jpg",
+      "http://example.com/amaca2-image2.jpg"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Amaca",
+    "description": "Sentite en la playa estando en tu casa",
+    "code": "Amaca001",
+    "price": 50000,
+    "status": true,
+    "stock": 20,
+    "category": "Hogar",
+    "thumbnails": [
+      "http://example.com/amaca-image1.jpg",
+      "http://example.com/amaca-image2.jpg"
+    ]
+  }
+]
