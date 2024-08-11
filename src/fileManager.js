@@ -1,22 +1,21 @@
-import fs from 'fs';
+import fs from 'fs/promises';
 
-const readJSONFile = (filename) => {
+// Función para leer el archivo JSON
+export async function readJSONFile(filePath) {
   try {
-    const data = fs.readFileSync(filename, 'utf8');
+    const data = await fs.readFile(filePath, 'utf-8');
     return JSON.parse(data);
   } catch (error) {
-    console.error(`Error reading ${filename}: ${error.message}`);
+    console.error('Error al leer el archivo JSON:', error);
     return [];
   }
-};
+}
 
-const writeJSONFile = (filename, data) => {
+// Función para escribir en el archivo JSON
+export async function writeJSONFile(filePath, data) {
   try {
-    fs.writeFileSync(filename, JSON.stringify(data, null, 2));
-    console.log(`Data written to ${filename} successfully.`);
+    await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
   } catch (error) {
-    console.error(`Error writing ${filename}: ${error.message}`);
+    console.error('Error al escribir en el archivo JSON:', error);
   }
-};
-
-export { readJSONFile, writeJSONFile };
+}
