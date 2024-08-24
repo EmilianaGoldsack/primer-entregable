@@ -18,12 +18,16 @@ connectDB();
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(fileURLToPath(import.meta.url), '..', '..', 'public'))); // Static files
+app.use(express.static(path.join(fileURLToPath(import.meta.url), '..', 'public'))); // Static files
 
 // Handlebars setup
 const exphbs = create({
   defaultLayout: 'main',
   layoutsDir: path.join(fileURLToPath(import.meta.url), '..', 'views', 'layouts'),
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true,
+  },
 });
 app.engine('handlebars', exphbs.engine);
 app.set('view engine', 'handlebars');
