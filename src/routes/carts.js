@@ -1,61 +1,44 @@
 import express from 'express';
-import { readJSONFile, writeJSONFile } from '../fileManager.js';
+import Cart from '../models/carts.model.js';
 
 const router = express.Router();
-const cartsFile = 'src/carts.json';
 
-// Obtener todos los carritos
-router.get('/', (req, res) => {
-    const carts = readJSONFile(cartsFile);
-    res.json(carts);
+router.delete('/:cid/products/:pid', async (req, res) => {
+  try {
+    await Cart.findByIdAndUpdate(req.params.cid, { $pull: { products: { _id: req.params.pid } } });
+    res.status(200).json({ status: 'success', message: 'Product removed from cart' });
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: error.message });
+  }
 });
 
-// Crear un nuevo carrito
-router.post('/', (req, res) => {
-    const carts = readJSONFile(cartsFile);
-    const newCart = {
-        id: Date.now(),
-        products: []
-    };
-    carts.push(newCart);
-    writeJSONFile(cartsFile, carts);
-    res.status(201).json(newCart);
+router.put('/:cid', async (req, res) => {
+  try {
+    const { products } = req.body;
+    await Cart.findByIdAndUpdate(req.params.cid, { products });
+    res.status(200).json({ status: 'success', message: 'Cart updated' });
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: error.message });
+  }
 });
 
-// Obtener los productos de un carrito por ID
-router.get('/:cid', (req, res) => {
-    const carts = readJSONFile(cartsFile);
-    const cart = carts.find(c => c.id === parseInt(req.params.cid, 10));
-
-    if (!cart) {
-        return res.status(404).send('Carrito no encontrado');
-    }
-
-    res.json(cart.products);
-});
-
-// Agregar un producto al carrito
-router.post('/:cid/product/:pid', (req, res) => {
-    const carts = readJSONFile(cartsFile);
-    const cart = carts.find(c => c.id === parseInt(req.params.cid, 10));
-
-    if (!cart) {
-        return res.status(404).send('Carrito no encontrado');
-    }
-
-    const { pid } = req.params;
+router.put('/:cid/products/:pid', async (req, res) => {
+  try {
     const { quantity } = req.body;
+    await Cart.updateOne({ _id: req.params.cid, 'products._id': req.params.pid }, { $set: { 'products.$.quantity': quantity } });
+    res.status(200).json({ status: 'success', message: 'Product quantity updated' });
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: error.message });
+  }
+});
 
-    const existingProduct = cart.products.find(p => p.product === parseInt(pid, 10));
-
-    if (existingProduct) {
-        existingProduct.quantity += parseInt(quantity, 10);
-    } else {
-        cart.products.push({ product: parseInt(pid, 10), quantity: parseInt(quantity, 10) });
-    }
-
-    writeJSONFile(cartsFile, carts);
-    res.status(201).json(cart);
+router.delete('/:cid', async (req, res) => {
+  try {
+    await Cart.findByIdAndUpdate(req.params.cid, { $set: { products: [] } });
+    res.status(200).json({ status: 'success', message: 'All products removed from cart' });
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: error.message });
+  }
 });
 
 export default router;

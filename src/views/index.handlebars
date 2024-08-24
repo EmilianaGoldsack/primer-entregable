@@ -1,19 +1,27 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Productos</title>
+  <title>Product List</title>
+  <link rel="stylesheet" href="/styles.css"> <!-- Si tienes un archivo CSS -->
 </head>
 <body>
-  <h1>Lista de Productos</h1>
-  <ul id="product-list">
-    {{#each products}}
-      <li>
-        {{title}} - ${{price}}
-      </li>
-    {{/each}}
-  </ul>
+  <h1>Product List</h1>
+  {{#if products.length}}
+    <ul>
+      {{#each products}}
+        <li>
+          <h2>{{this.name}}</h2>
+          <p>Price: ${{this.price}}</p>
+          <a href="/products/{{this._id}}">View Details</a>
+          <button onclick="addToCart('{{this._id}}')">Add to Cart</button>
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>No products available.</p>
+  {{/if}}
+  <script src="/script.js"></script>
 </body>
 </html>
-

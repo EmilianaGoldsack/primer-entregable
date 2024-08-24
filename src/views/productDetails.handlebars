@@ -1,0 +1,5 @@
+<h1>{{product.name}}</h1>
+<p>Price: ${{product.price}}</p>
+<p>Category: {{product.category}}</p>
+<p>Available: {{#if product.available}}Yes{{else}}No{{/if}}</p>
+<button onclick="addToCart('{{product._id}}')">Add to Cart</button>

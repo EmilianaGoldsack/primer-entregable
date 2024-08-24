@@ -1,0 +1,11 @@
+<h1>Cart Details</h1>
+<ul>
+  {{#each cart.products}}
+    <li>
+      <h2>{{this.name}}</h2>
+      <p>Price: ${{this.price}}</p>
+      <button onclick="removeFromCart('{{this._id}}')">Remove from Cart</button>
+    </li>
+  {{/each}}
+</ul>
+<button onclick="clearCart()">Clear Cart</button>
