@@ -15,7 +15,7 @@
           <h2>{{this.name}}</h2>
           <p>Price: ${{this.price}}</p>
           <a href="/products/{{this._id}}">View Details</a>
-          <button onclick="addToCart('{{this._id}}')">Add to Cart</button>
+           <button class="add-to-cart-button" data-product-id="{{this._id}}">Add to Cart</button>
         </li>
       {{/each}}
     </ul>

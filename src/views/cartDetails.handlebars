@@ -1,11 +1,23 @@
-<h1>Cart Details</h1>
-<ul>
-  {{#each cart.products}}
-    <li>
-      <h2>{{this.name}}</h2>
-      <p>Price: ${{this.price}}</p>
-      <button onclick="removeFromCart('{{this._id}}')">Remove from Cart</button>
-    </li>
-  {{/each}}
-</ul>
-<button onclick="clearCart()">Clear Cart</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart Details</title>
+  <link rel="stylesheet" href="/styles.css"> <!-- Si tienes un archivo CSS -->
+</head>
+<body>
+  <h1>Cart Details</h1>
+  <ul id="cart">
+    {{#each cart.products}}
+      <li id="cart-product-{{this._id}}">
+        <h2>{{this.name}}</h2>
+        <p>Price: ${{this.price}}</p>
+        <button class="remove-from-cart-button" data-product-id="{{this._id}}">Remove from Cart</button>
+      </li>
+    {{/each}}
+  </ul>
+  <button id="clear-cart-button">Clear Cart</button>
+  <script src="/script.js"></script>
+</body>
+</html>

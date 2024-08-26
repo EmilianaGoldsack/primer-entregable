@@ -40,7 +40,21 @@ function updateCart(cart) {
 
 // Add a product to the cart
 function addToCart(productId) {
-  socket.emit('cartUpdate', { action: 'add', productId });
+  fetch('/api/carts/add', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ productId })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data._id) {
+      // Redirect to the cart page
+      window.location.href = `/carts/${data._id}`;
+    }
+  })
+  .catch(error => console.error('Error adding product to cart:', error));
 }
 
 // View product details
@@ -71,6 +85,14 @@ document.querySelectorAll('.add-to-cart-button').forEach(button => {
     addToCart(productId);
   });
 });
+
+// Add a product to the cart
+function addToCart(productId) {
+    socket.emit('cartUpdate', { action: 'add', productId });
+    
+    // Redirect to the cart page
+    window.location.href = '/carts';
+  }
 
 document.querySelectorAll('.remove-from-cart-button').forEach(button => {
   button.addEventListener('click', (event) => {
